@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DEMO KHKT: Kiểm Chứng Thông Tin AI & Con Người</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f4f6f9; margin: 0; padding: 20px; color: #333; }
+        .container { max-width: 700px; margin: 0 auto; background: #fff; padding: 30px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        h1 { color: #1a73e8; text-align: center; font-size: 22px; margin-bottom: 20px; }
+        .card { background: #eef2f7; border-left: 5px solid #1a73e8; padding: 15px; margin-bottom: 20px; border-radius: 4px; font-size: 16px; line-height: 1.5; }
+        .tag { display: inline-block; background: #ff9800; color: #fff; padding: 3px 8px; font-size: 12px; border-radius: 3px; margin-bottom: 10px; font-weight: bold; }
+        .step-title { font-weight: bold; color: #d93025; margin-top: 15px; margin-bottom: 10px; }
+        .btn-group { display: flex; justify-content: space-between; margin-bottom: 20px; }
+        .btn-group button { flex: 1; margin: 0 4px; padding: 10px; border: 1px solid #1a73e8; background: #fff; color: #1a73e8; font-weight: bold; border-radius: 6px; cursor: pointer; transition: 0.2s; }
+        .btn-group button:hover, .btn-group button.active { background: #1a73e8; color: #fff; }
+        .action-btn { width: 100%; padding: 12px; background: #28a745; color: white; border: none; font-size: 16px; font-weight: bold; border-radius: 6px; cursor: pointer; margin-top: 10px; }
+        .action-btn:disabled { background: #ccc; cursor: not-allowed; }
+        .verify-box { background: #fff3cd; border: 1px solid #ffeeba; padding: 15px; border-radius: 6px; margin-top: 15px; display: none; }
+        .result-box { background: #d4edda; border: 1px solid #c3e6cb; padding: 15px; border-radius: 6px; margin-top: 15px; display: none; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>THỰC NGHIỆM KIỂM CHỨNG THÔNG TIN (DỰ ÁN KHKT)</h1>
+    
+    <div class="card">
+        <span class="tag">THÔNG TIN THỬ THÁCH #1</span>
+        <p><strong>Nội dung:</strong> "Một nghiên cứu mới năm 2024 của các nhà khoa học chỉ ra rằng việc uống 3 ly cà phê mỗi ngày giúp kéo dài tuổi thọ thêm đúng 15 năm và hoàn toàn thay thế được việc tập thể dục."</p>
+        <p><em>(Nguồn gắn nhãn: Công cụ AI ChatGPT tạo ra)</em></p>
+    </div>
+
+    <!-- BƯỚC 1: LỰA CHỌN MỨC TIN TƯỞNG BAN ĐẦU -->
+    <div class="step-title">Bước 1: Chọn mức độ tin tưởng BAN ĐẦU của bạn (%):</div>
+    <div class="btn-group" id="initial-rating">
+        <button onclick="selectInitial(0)">0%</button>
+        <button onclick="selectInitial(25)">25%</button>
+        <button onclick="selectInitial(50)">50%</button>
+        <button onclick="selectInitial(75)">75%</button>
+        <button onclick="selectInitial(100)">100%</button>
+    </div>
+
+    <!-- BƯỚC 2: TIẾN HÀNH KIỂM CHỨNG -->
+    <div class="verify-box" id="verify-section">
+        <div class="step-title">Bước 2: Hướng dẫn kiểm chứng nguồn tin:</div>
+        <p>1. Hãy sao chép nội dung trên và tìm kiếm trên Google/Báo y tế chính thống.</p>
+        <p>2. Kiểm tra xem có con số "thay thế tập thể dục" hay không hay đây là văn phong thổi phồng/ảo giác AI.</p>
+        <hr>
+        <div class="step-title">Bước 3: Sau khi kiểm chứng, chọn lại mức % tin tưởng THỰC TẾ:</div>
+        <div class="btn-group" id="final-rating">
+            <button onclick="selectFinal(0)">0%</button>
+            <button onclick="selectFinal(25)">25%</button>
+            <button onclick="selectFinal(50)">50%</button>
+            <button onclick="selectFinal(75)">75%</button>
+            <button onclick="selectFinal(100)">100%</button>
+        </div>
+        <button class="action-btn" id="submit-btn" disabled onclick="showResult()">HOÀN THÀNH ĐÁNH GIÁ</button>
+    </div>
+
+    <!-- BƯỚC 3: KẾT QUẢ VÀ ĐÁNH GIÁ -->
+    <div class="result-box" id="result-section">
+        <h3>KẾT QUẢ PHÂN TÍCH NHẬN THỨC CỦA BẠN:</h3>
+        <p id="result-text"></p>
+        <p><strong>Giải mã thông tin:</strong> Đây là thông tin <u>SAI LỆCH (Ảo giác AI)</u>. Cà phê có chất chống oxy hóa nhưng không thể thay thế vận động thể lực.</p>
+    </div>
+</div>
+
+<script>
+    let initialScore = null;
+    let finalScore = null;
+
+    function selectInitial(score) {
+        initialScore = score;
+        let btns = document.querySelectorAll('#initial-rating button');
+        btns.forEach(b => b.classList.remove('active'));
+        event.target.classList.add('active');
+        
+        // Hiện phần kiểm chứng
+        document.getElementById('verify-section').style.display = 'block';
+    }
+
+    function selectFinal(score) {
+        finalScore = score;
+        let btns = document.querySelectorAll('#final-rating button');
+        btns.forEach(b => b.classList.remove('active'));
+        event.target.classList.add('active');
+        
+        // Kích hoạt nút hoàn thành
+        document.getElementById('submit-btn').disabled = false;
+    }
+
+    function showResult() {
+        document.getElementById('result-section').style.display = 'block';
+        let diff = initialScore - finalScore;
+        let text = `Mức tin tưởng ban đầu của bạn: <strong>${initialScore}%</strong>.<br>` +
+                   `Mức tin tưởng sau kiểm chứng: <strong>${finalScore}%</strong>.<br>`;
+        
+        if (initialScore > 50 && finalScore <= 25) {
+            text += `<span style="color:green;">=> Tuyệt vời! Bạn đã vượt qua bẫy "cả tin" ban đầu nhờ thao tác kiểm chứng thực tế!</span>`;
+        } else if (initialScore === finalScore && initialScore > 50) {
+            text += `<span style="color:red;">=> Cảnh báo: Bạn vẫn bị chi phối bởi văn phong mượt mà mà chưa thực sự kiểm chứng nguồn dữ liệu gốc!</span>`;
+        } else {
+            text += `=> Bạn đã hoàn thành quy trình đánh giá hoài nghi khoa học.`;
+        }
+        
+        document.getElementById('result-text').innerHTML = text;
+    }
+</script>
+
+</body>
+</html>
